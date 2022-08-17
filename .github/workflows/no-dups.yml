@@ -15,3 +15,4 @@ jobs:
 
     - name: No Duplication beyond 3 lines
       run: jscpd . --min-lines 3 --min-tokens 48 --threshold 0
+      
