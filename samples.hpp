@@ -4,13 +4,14 @@
 #include <iostream>
 #include <vector>
 
-struct rangeData
+struct RangeData
 {
-    int start;
-    int end;
-    int numElements;
+    std::vector<uint32_t> m_range;
+    size_t m_numElements;
+    RangeData(std::vector<uint32_t> range, size_t numElements) : m_range(range), m_numElements(numElements){};
+    std::string toString();
 };
 
-rangeData inRangeReading(std::vector<int> input);
+std::vector<RangeData> findConsecutiveRanges(std::vector<uint32_t> input);
 
 #endif /*__SAMPLES_HPP_ */
