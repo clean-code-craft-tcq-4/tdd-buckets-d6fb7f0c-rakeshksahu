@@ -73,19 +73,19 @@ TEST_CASE("test set 6 - Multiple charging samples with multiple ranges") {
 }
 
 
-TEST_CASE("test checkIf12BitArrayWithInRange : value within boundary")
+TEST_CASE("test A2DConverter12Bit.checkIfInputWithInRange : valid value")
 {
     vector<uint32_t> currentSensorValue {0, 1000, 2000, 3000, 4094};
     REQUIRE(A2DConverter12Bit().checkIfInputWithInRange(currentSensorValue) == true);
 }
 
-TEST_CASE("test checkIf12BitArrayWithInRange : value > boundary")
+TEST_CASE("test A2DConverter12Bit.A2DConverter12Bit : value more than limit")
 {
     vector<uint32_t> currentSensorValue {0, 1000, 2000, 3000, 5000};
     REQUIRE(A2DConverter12Bit().checkIfInputWithInRange(currentSensorValue) == false);
 }
 
-TEST_CASE("test adc12BitCurrentValueToAmpere : value within boundary") {
+TEST_CASE("test A2DConverter12Bit.convertADCValueToAmpere : value within boundary") {
     vector<uint32_t> currentSensorValue {500, 1146, 1500, 2000, 2500, 3000, 3500, 4000};
     vector<uint32_t> expectedCurrentValueInAmpere {1, 3, 4, 5, 6, 7, 9, 10};
 
@@ -95,7 +95,7 @@ TEST_CASE("test adc12BitCurrentValueToAmpere : value within boundary") {
         actual12BitCurrentValueInAmpere.begin() + actual12BitCurrentValueInAmpere.size(), expectedCurrentValueInAmpere.begin()) == true);
 }
 
-TEST_CASE("test adc12BitCurrentValueToAmpere : value > boundary")
+TEST_CASE("test A2DConverter12Bit.convertADCValueToAmpere : value more than limit")
 {
     vector<uint32_t> currentSensorValue {4095};
 
@@ -103,25 +103,25 @@ TEST_CASE("test adc12BitCurrentValueToAmpere : value > boundary")
     REQUIRE(actual12BitCurrentValueInAmpere.empty() == true);
 }
 
-TEST_CASE("test checkIf10BitArrayWithInRange : value within boundary")
+TEST_CASE("test A2DConverter10Bit.checkIfInputWithInRange : value within boundary")
 {
     vector <int32_t> currentSensorValue {0, 100, 200, 300, 400, 512, 750, 1022};
     REQUIRE(A2DConverter10Bit().checkIfInputWithInRange(currentSensorValue) == true);
 }
 
-TEST_CASE("test checkIf10BitArrayWithInRange : value < boundary")
+TEST_CASE("test A2DConverter10Bit.checkIfInputWithInRange : value < boundary")
 {
     vector<int32_t> currentSensorValue {-1, 100, 200, 300, 400, 512, 750, 1022};
     REQUIRE(A2DConverter10Bit().checkIfInputWithInRange(currentSensorValue) == false);
 }
 
-TEST_CASE("test checkIf10BitArrayWithInRange : value > boundary")
+TEST_CASE("test A2DConverter10Bit.checkIfInputWithInRange : value > boundary")
 {
     vector<int32_t> currentSensorValue {0, 100, 200, 300, 400, 512, 750, 1023};
     REQUIRE(A2DConverter10Bit().checkIfInputWithInRange(currentSensorValue) == false);
 }
 
-TEST_CASE("test adc10BitCurrentValueToAmpere : value within boundary")
+TEST_CASE("test A2DConverter10Bit.convertADCValueToAmpere : value within boundary")
 {
     vector<int32_t> currentSensorValue {0, 512, 1022};
     vector<int32_t> expectedCurrentValueInAmpere {-15, 0 ,15};
@@ -131,14 +131,14 @@ TEST_CASE("test adc10BitCurrentValueToAmpere : value within boundary")
         actual10BitCurrentValueInAmpere.begin() + actual10BitCurrentValueInAmpere.size(), expectedCurrentValueInAmpere.begin()) == true);
 }
 
-TEST_CASE("test adc10BitCurrentValueToAmpere : value out of boundary < lower boundary")
+TEST_CASE("test A2DConverter10Bit.convertADCValueToAmpere : value < lower limit")
 {
     vector<int32_t> currentSensorValue {-1};
     auto actual10BitCurrentValueInAmpere = A2DConverter10Bit().convertADCValueToAmpere(currentSensorValue);
     REQUIRE(actual10BitCurrentValueInAmpere.empty() == true);
 }
 
-TEST_CASE("test adc10BitCurrentValueToAmpere : value out of boundary > upper boundary")
+TEST_CASE("test A2DConverter10Bit.convertADCValueToAmpere : value > upper limit")
 {
     vector<int32_t> currentSensorValue {1023};
     auto actual10BitCurrentValueInAmpere = A2DConverter10Bit().convertADCValueToAmpere(currentSensorValue);

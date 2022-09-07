@@ -7,11 +7,9 @@ using namespace std;
 
 bool A2DConverter12Bit::checkIfInputWithInRange(const std::vector<uint32_t>& inputData) {
 
-  auto result = std::find_if(inputData.begin(), inputData.end(), [this](const uint32_t& i){
+  return  (inputData.end() == std::find_if(inputData.begin(), inputData.end(), [this](const uint32_t& i){
     return (i < ADC_12BIT_LOWER_LIMIT) || (i > ADC_12BIT_UPPER_LIMIT);
-  });
-
-  return result != inputData.end();
+  }));
 }
 
 vector<uint32_t> A2DConverter12Bit::convertADCValueToAmpere(const std::vector<uint32_t>& currentSensorValue)
